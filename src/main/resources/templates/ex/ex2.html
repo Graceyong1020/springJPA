@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http:www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>[[${strList}]]</div>
+<div th:text="${strList}"></div>
+<ul>
+    <li th:each="str: ${strList}">[[${str}]]</li>
+</ul>
+<ul>
+    <th:block th:each="str: ${strList}">
+        <li>[[${str}]]</li>
+    </th:block>
+</ul>
+<!--Map으로 출력하기-->
+<div th:text="${maps}"></div>
+<div>[[${maps}]]</div>
+<div th:text="${maps.HKD}"></div>
+
+<!--DTO로 출력하기-->
+<div>[[${sampleDTO}]]</div>
+<div th:text="${sampleDTO}"></div>
+<div>[[${sampleDTO.name}]]</div>
+
+<!--JavaScript로 출력하기-->
+<script th:inline="javascript">
+    const list=[[${strlist}]]
+    const map=[[${maps}]]
+    const dto=[[${sampleDTO}]]
+
+    console.log(list)
+    console.log(map)
+    console.log(dto)
+</script>
+
+</body>
+</html>
