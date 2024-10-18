@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}"
+      lang="en">
+<div layout:fragment="content"> <!--현재 페이지에서 이걸 새로 작업하게됨 -->
+    <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Read Page</h5>
+        <form action="/board/read" method="post">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Title</span>
+                <input type="text" class="form-control" name="title" th:value="${board.title}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Content</span>
+                <textarea  name="content" class="form-control col-sm-5" rows="5" readonly th:text="${board.content}">
+                </textarea>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Writer</span>
+                <input type="text" class="form-control" name="writer" th:value="${board.writer}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <button type="button" class="btn btn-primary">Modify</button>
+                <button type="button" class="btn btn-danger">Remove</button>
+                <button type="button" class="btn btn-secondary">Board List</button>
+            </div>
+
+        </form>
+
+    </div>
+    </div>
+
+
+    </div>
+</html>
