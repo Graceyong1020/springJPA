@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @Builder
-public class Board {
+public class Board extends BaseEntity { //BaseEntity를 상속받아서 생성일, 수정일을 자동으로 처리
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
     private Long bno;
@@ -25,10 +25,12 @@ public class Board {
     private String content;
     @Column(nullable = false, length = 50)
     private String writer;
-    @CreationTimestamp // 자동으로 현재 시간이 들어감
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private Date postdate;
+
     @ColumnDefault("0")
     private int visitcount;
+
+    public void updateVisitCount() {
+        this.visitcount++;
+    }
 
 }

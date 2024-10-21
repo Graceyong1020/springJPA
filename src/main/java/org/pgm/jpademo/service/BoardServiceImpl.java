@@ -2,11 +2,19 @@ package org.pgm.jpademo.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.pgm.jpademo.domain.Board;
+import org.pgm.jpademo.dto.BoardDTO;
+import org.pgm.jpademo.dto.PageRequestDTO;
+import org.pgm.jpademo.dto.PageResponseDTO;
 import org.pgm.jpademo.repository.BoardRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -14,19 +22,32 @@ import java.util.List;
 
 public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
+    private final ModelMapper modelMapper; //ModelMapper를 사용하여 Entity와 DTO간의 변환을 처리
 
 
     @Override
-    public List<Board> getList() {
+    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
         log.info("getList");
-        List<Board> boardList = boardRepository.findAll();
-        log.info("getList");
-        return boardList;
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+        Page<Board> result = boardRepository.findAll(pageable); // page정보와 정렬정보를 이용하여 페이징 처리된 결과를 가져온다
+        List<BoardDTO> dtoList = result.getContent().stream().map(board
+                -> modelMapper.map(board, BoardDTO.class))
+                .collect(Collectors.toUnmodifiableList()); //Board를 BoardDTO로 변환
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
     }
+
     @Override
     public Board getBoard(Long bno) {
         log.info("getBoard: "+bno);
-        return boardRepository.findById(bno).get();
+        Board board = boardRepository.findById(bno).get();
+        board.updateVisitCount();
+        boardRepository.save(board);
+        return board;
     }
 
     @Override

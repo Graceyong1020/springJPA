@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      lang="en">
+      lang="en"> <!-- layout:decorate 속성을 사용하기 위해 layout 네임스페이스 추가 -->
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,7 +10,7 @@
 <div>
     <h3>Sample Layout Header</h3>
 </div>
-<div layout:fragment="content">
+<div layout:fragment="content"> <!-- layout:fragment 속성을 사용하여 content 영역을 정의, 변경 가능한 영역 -->
     <h3>Page content goes here</h3>
 </div>
 

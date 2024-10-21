@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}"
+      lang="en">
+<div layout:fragment="content"> <!--현재 페이지에서 이걸 새로 작업하게됨 -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Register Page</h5>
+            <form action="/board/modify" method="post">
+                <input type="hidden" name="bno" th:value="${dto.bno}">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Title</span>
+                    <input type="text" class="form-control" name="title" th:value="${dto.title}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Content</span>
+                    <textarea name="content" class="form-control col-sm-5" rows="5">
+                    [[${dto.content}]]
+                </textarea>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Writer</span>
+                    <input type="text" class="form-control" name="writer" th:value="${dto.writer}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <button type="button" id="modifyBtn" class="btn btn-primary">Modify</button>
+                    <button type="button" id="removeBtn" class="btn btn-secondary">Remove</button>
+                    <button type="button" id="listBtn" class="btn btn-secondary">List</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    const formObj = document.querySelector("form");
+    // 수정 버튼 클릭 시 수정
+    document.querySelector("#modifyBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        formObj.action="/board/modify";
+        formObj.method="post";
+        formObj.submit();
+    }, false);
+    // 삭제 버튼 클릭 시 삭제
+    document.querySelector("#removeBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        formObj.action="/board/remove";
+        formObj.method="post"; // get 방식으로 하면 /remove?bno=${dto.bno} 이렇게 입력
+        formObj.submit();
+    } , false);
+
+    // 목록 버튼 클릭 시 목록으로 이동
+    document.querySelector("#listBtn").addEventListener("click", function (e) {
+       e.preventDefault();
+        e.stopPropagation();
+        formObj.reset();
+        self.location="/board/list";
+    } , false);
+</script>
+
+
+        </html>
