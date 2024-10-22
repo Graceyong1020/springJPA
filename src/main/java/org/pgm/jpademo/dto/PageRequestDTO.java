@@ -26,21 +26,21 @@ public class PageRequestDTO { //pagerequest 목적은 parameter를 받아서 쿼
     @Builder.Default
     private int page = 1;
 
-    private String type;
+    private String type; // 종류: T, W, C, TC, TW, TCW
     private String keyword;
 
 
-    private String[] getTypes() {
-        if (type == null || type.isEmpty()) {
+    public String[] getTypes() {
+        if (type == null || type.isEmpty()) { //type이 비어있거나 null이면 null을 반환
             return null;
         }
-        return type.split("");
+        return type.split(""); //else: type을 쪼개서 글자 한자씩("") 반환해서 배열로 만들어 반환
     }
 
 
     public Pageable getPageable(String... props) {
         return (Pageable) PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
-    } //pageable을 만들어주는 메서드, 데이터를 가져와서 내림차순으로 정렬해주는 메서드
+    } //pageable을 만들어주는 메서드, 데이터를 가져와서 내림차순으로 정렬해주는 메서드, 한 페이지에 size 만큼 데이터를 보여주는 메서드
 
     private String link;
 

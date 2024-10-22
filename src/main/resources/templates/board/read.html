@@ -39,11 +39,11 @@
                 <span class="input-group-text">VisitCount</span>
                 <input type="text" class="form-control" name="visitcount" th:value="${dto.visitcount}" readonly>
             </div>
-            <div class="input-group mb-3">
-                <a th:href="@{/board/modify(bno=${dto.bno})}" class="text-decoration-none">
+            <div class="input-group mb-3" th:with="link=${pageRequestDTO.getLink()}">
+                <a th:href="|@{/board/modify(bno=${dto.bno})}&${link}|" class="text-decoration-none">
                     <button type="button" class="btn btn-primary">Modify</button>
                 </a>
-                <a th:href="@{/board/list}" class="text-decoration-none">
+                <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
                     <button type="button" class="btn btn-secondary">Board List</button>
                 </a>
             </div>
