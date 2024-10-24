@@ -39,7 +39,7 @@ public class PageRequestDTO { //pagerequest 목적은 parameter를 받아서 쿼
 
 
     public Pageable getPageable(String... props) {
-        return (Pageable) PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
+        return PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
     } //pageable을 만들어주는 메서드, 데이터를 가져와서 내림차순으로 정렬해주는 메서드, 한 페이지에 size 만큼 데이터를 보여주는 메서드
 
     private String link;
