@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}"
+      lang="en">
+<div layout:fragment="content">
+    <form action="/upload/uploadPro" method="post" enctype="multipart/form-data">
+        Title: <input type="text" name="title"><br/>
+        Content: <textarea name="content" rows="5" cols="30"></textarea><br/>
+        Writer: <input type="text" name="writer"><br/>
+        <input type="file" name="files" multiple><br/>
+        <input type="submit" value="fileupload"><br/>
+    </form>
+</div>
+</html>
