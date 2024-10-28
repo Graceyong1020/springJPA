@@ -28,7 +28,7 @@ import java.util.*;
 @Log4j2
 @RequestMapping("/upload")
 
-public class UpDownController {
+public class UpDownController { //파일 업로드 처리
 
     @Value("${org.pgm.jpademo.upload.path}")
     private String uploadPath;

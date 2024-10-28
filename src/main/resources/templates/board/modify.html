@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Register Page</h5>
-            <form action="/board/modify" method="post">
+            <form action="/board/modify" method="post" enctype= "multipart/form-data" id="f1" >
                 <input type="hidden" name="bno" th:value="${dto.bno}">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Title</span>
@@ -20,6 +20,26 @@
                     [[${dto.content}]]
                 </textarea>
                 </div>
+
+
+                <div class="input-group uploadResult mb-3"> <!--첨부파일이 있을 경우에만 보여주기 위해 uploadResult 클래스 추가-->
+                    <span class="input-group-text">첨부파일</span>
+                    <div class="col" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
+                        <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+                            <img class ="m-3" th:each="fileName : ${dto.fileNames}"
+                                th:src="|/board/view/${fileName}|" th:data-src="${fileName}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uploadHidden"></div> <!--첨부파일이 없을 경우에만 보여주기 위해 uploadHidden 클래스 추가-->
+
+                <!--파일 업로드를 위한 input 태그 추가-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text">FileUpload</span>
+                    <input type="file" class="form-control" name="files">
+                </div>
+
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">Writer</span>
@@ -44,6 +64,8 @@
     document.querySelector("#modifyBtn").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
+        appendFileData();
+
         formObj.action="/board/modify";
         formObj.method="post";
         formObj.submit();
@@ -52,10 +74,28 @@
     document.querySelector("#removeBtn").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
+        appendFileData();
+
         formObj.action="/board/remove";
         formObj.method="post"; // get 방식으로 하면 /remove?bno=${dto.bno} 이렇게 입력
         formObj.submit();
     } , false);
+
+    function appendFileData() {
+        const target = document.querySelector(".uploadHidden");
+        const uploadResult = document.querySelector(".uploadResult");
+        const uploadFiles = uploadResult.querySelectorAll("img");
+
+        let str = ''
+        for(let i=0; i<uploadFiles.length; i++){
+            const uploadFile = uploadFiles[i];
+            const imgLink=uploadFile.getAttribute("data-src");
+
+            str += `<input type="hidden" name="fileNames" value="${imgLink}">`;
+        }
+        //hidden 영역에 이미지 갯수 만큼 input 태그 추가하여 전송
+        target.innerHTML = str;
+    }
 
     // 목록 버튼 클릭 시 목록으로 이동
     document.querySelector("#listBtn").addEventListener("click", function (e) {

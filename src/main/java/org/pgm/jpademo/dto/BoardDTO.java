@@ -25,7 +25,9 @@ public class BoardDTO {
     private String content;
     @NotEmpty
     private String writer;
+
     private int visitcount;
+
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 

@@ -12,8 +12,8 @@ import java.util.Optional;
 
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch {
-    @EntityGraph(attributePaths = {"imageSet"})
-    @Query("select b from Board b where b.bno = :bno")
+    @EntityGraph(attributePaths = {"imageSet"}) //EntityGraph를 이용하여 이미지 정보를 imageSet으로 함께 가져오도록 설정
+    @Query("select b from Board b where b.bno = :bno") //Board 객체를 가져오는데 이미지 정보도 함께 가져오는 쿼리
     Optional<Board> findByIdWithImages(Long bno); //findByIdWithImage 메서드는 bno에 해당하는 Board 객체를 가져오는데, 이미지 정보도 함께 가져오는 메서드
 
 
